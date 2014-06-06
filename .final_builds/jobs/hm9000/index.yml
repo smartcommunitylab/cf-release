@@ -80,3 +80,9 @@ builds:
     version: 16
     sha1: !binary |-
       YzVhYWYzYzVhN2FhYWI5ZDQzODUzYjFlMWIyYWJiNjBmMzJhNGEzNA==
+  !binary "MGRkNGFhMGY1N2IxYzVmNWM2MjExODcwOGVlNTA5MWY5MDExZTc1Ng==":
+    blobstore_id: fac984cb-3c1d-4faa-a25e-f86203b8ac63
+    version: !binary |-
+      MGRkNGFhMGY1N2IxYzVmNWM2MjExODcwOGVlNTA5MWY5MDExZTc1Ng==
+    sha1: !binary |-
+      NmJjNDRkMjc5OGZkYzRjYTAzOTYzM2JlOTMwOWU0NWYyZWE3OGQ3ZA==
