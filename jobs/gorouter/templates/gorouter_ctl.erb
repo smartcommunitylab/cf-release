@@ -24,8 +24,8 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    if grep -q '/instance' /proc/self/cgroup; then
-        echo "Not setting /proc/sys/net/ipv4 parameters, since I'm running inside a linux container"
+    if grep -q 'name=container:/...' /proc/self/cgroup; then
+        echo "Not setting /proc/sys parameters, since I'm running inside a linux container"
     else
         # Ephemeral port range
         echo "1024 65535" > /proc/sys/net/ipv4/ip_local_port_range
@@ -51,14 +51,14 @@ case $1 in
         # Default value is 0 (disabled). It is generally a safer alternative to tcp_tw_recycle
 
         echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse
+    
+
+        # Allow a few more queued connections than are allowed by default
+        echo 1024 > /proc/sys/net/core/somaxconn
+
+        # Allowed number of open file descriptors
+        ulimit -n 100000
     fi
-
-    # Allow a few more queued connections than are allowed by default
-    echo 1024 > /proc/sys/net/core/somaxconn
-
-    # Allowed number of open file descriptors
-    ulimit -n 100000
-
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh /var/vcap/jobs/gorouter/config
 
     (crontab -l | sed /gorouter.*logrotate/d; cat /var/vcap/jobs/gorouter/config/gorouter_logrotate.cron) | sed /^$/d | crontab
