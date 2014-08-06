@@ -37,7 +37,11 @@ case "$1" in
     echo $$ > $PIDFILE
     chown vcap:vcap $PIDFILE
 
-    sysctl -w "kernel.shmmax=284934144"
+    if grep -q 'name=container:/...' /proc/self/cgroup; then
+        echo "Not setting /proc/sys parameters, since I'm running inside a linux container"
+    else
+      sysctl -w "kernel.shmmax=284934144"
+    fi
 
     if [ ! -d $STORE_DIR ]; then
       echo "ERROR: storage directory doesn't exist"
